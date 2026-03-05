@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>👑 管理员后台 - Language Hub</title>
+    <link rel="stylesheet" href="apple-style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f5f7fa;
+            overflow-x: hidden;
+        }
+
+        .admin-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* 侧边栏 */
+        .sidebar {
+            width: 260px;
+            background: linear-gradient(180deg, #6B5344 0%, #4A3828 100%);
+            color: white;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            box-shadow: 4px 0 10px rgba(0,0,0,0.1);
+            z-index: 100;
+        }
+
+        .sidebar-header {
+            padding: 30px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+        }
+
+        .sidebar-header h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .sidebar-header p {
+            font-size: 13px;
+            opacity: 0.7;
+        }
+
+        .sidebar-menu {
+            padding: 20px 0;
+        }
+
+        .menu-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+        }
+
+        .menu-item:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+
+        .menu-item.active {
+            background: rgba(168, 124, 92, 0.3);
+            color: white;
+            border-left: 4px solid #A87C5C;
+        }
+
+        .menu-icon {
+            font-size: 20px;
+            width: 24px;
+            text-align: center;
+        }
+
+        .sidebar-footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            padding: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+        }
+
+        .user-avatar {
+            font-size: 32px;
+        }
+
+        .user-details h4 {
+            font-size: 14px;
+            margin-bottom: 2px;
+        }
+
+        .user-details p {
+            font-size: 12px;
+            opacity: 0.7;
+        }
+
+        /* 主内容区 */
+        .main-content {
+            margin-left: 260px;
+            flex: 1;
+            padding: 30px;
+        }
+
+        .top-bar {
+            background: white;
+            padding: 20px 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .page-title h2 {
+            font-size: 28px;
+            color: #2d3748;
+            margin-bottom: 5px;
+        }
+
+        .page-title p {
+            color: #718096;
+            font-size: 14px;
+        }
+
+        .top-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #A87C5C 0%, #8B6F47 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(168, 124, 92, 0.4);
+        }
+
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #4a5568;
+        }
+
+        .btn-danger {
+            background: #f56565;
+            color: white;
+        }
+
+        /* 统计卡片 */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+
+        .stat-card.blue::before { background: #A87C5C; }
+        .stat-card.green::before { background: #8B6F47; }
+        .stat-card.purple::before { background: #B8956A; }
+        .stat-card.orange::before { background: #C9A87A; }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .stat-icon {
+            font-size: 36px;
+            opacity: 0.8;
+        }
+
+        .stat-label {
+            color: #718096;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #2d3748;
+        }
+
+        .stat-change {
+            font-size: 12px;
+            margin-top: 8px;
+        }
+
+        .stat-change.up {
+            color: #38a169;
+        }
+
+        .stat-change.down {
+            color: #f56565;
+        }
+
+        /* 表格 */
+        .data-table-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+
+        .table-header {
+            padding: 20px 25px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .table-header h3 {
+            font-size: 18px;
+            color: #2d3748;
+        }
+
+        .table-search {
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-input {
+            padding: 8px 15px;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 14px;
+            width: 250px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: #f7fafc;
+        }
+
+        th, td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        th {
+            font-size: 13px;
+            font-weight: 600;
+            color: #4a5568;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            font-size: 14px;
+            color: #2d3748;
+        }
+
+        tbody tr:hover {
+            background: #f7fafc;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-admin {
+            background: #fed7d7;
+            color: #c53030;
+        }
+
+        .badge-teacher {
+            background: #bee3f8;
+            color: #2c5282;
+        }
+
+        .badge-student {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+
+        .badge-guest {
+            background: #e2e8f0;
+            color: #4a5568;
+        }
+
+        .table-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 5px;
+            transition: transform 0.2s;
+        }
+
+        .icon-btn:hover {
+            transform: scale(1.2);
+        }
+
+        /* 模态框 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h3 {
+            font-size: 20px;
+            color: #2d3748;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #718096;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 8px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        select.form-control {
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+
+            .sidebar.mobile-open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- 侧边栏 -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h1>👑 管理后台</h1>
+                <p>Language Hub</p>
+            </div>
+
+            <div class="sidebar-menu">
+                <a href="#" class="menu-item active" onclick="showSection('dashboard')">
+                    <span class="menu-icon">📊</span>
+                    <span>仪表板</span>
+                </a>
+                <a href="#" class="menu-item" onclick="showSection('users')">
+                    <span class="menu-icon">👥</span>
+                    <span>用户管理</span>
+                </a>
+                <a href="#" class="menu-item" onclick="showSection('vocabulary')">
+                    <span class="menu-icon">📚</span>
+                    <span>词汇管理</span>
+                </a>
+                <a href="#" class="menu-item" onclick="showSection('statistics')">
+                    <span class="menu-icon">📈</span>
+                    <span>数据统计</span>
+                </a>
+                <a href="#" class="menu-item" onclick="showSection('settings')">
+                    <span class="menu-icon">⚙️</span>
+                    <span>系统设置</span>
+                </a>
+                <a href="index.html" class="menu-item">
+                    <span class="menu-icon">🏠</span>
+                    <span>返回首页</span>
+                </a>
+                <a href="#" class="menu-item" onclick="logout()">
+                    <span class="menu-icon">🚪</span>
+                    <span>退出登录</span>
+                </a>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="user-info" id="sidebarUserInfo">
+                    <div class="user-avatar">👑</div>
+                    <div class="user-details">
+                        <h4>加载中...</h4>
+                        <p>管理员</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 主内容区 -->
+        <div class="main-content">
+            <!-- 顶部栏 -->
+            <div class="top-bar">
+                <div class="page-title">
+                    <h2 id="pageTitle">仪表板</h2>
+                    <p id="pageSubtitle">系统概览和关键指标</p>
+                </div>
+                <div class="top-actions">
+                    <button class="btn btn-primary" onclick="refreshData()">
+                        🔄 刷新数据
+                    </button>
+                    <button class="btn btn-secondary" onclick="exportData()">
+                        📤 导出数据
+                    </button>
+                </div>
+            </div>
+
+            <!-- 仪表板部分 -->
+            <div id="dashboardSection">
+                <!-- 统计卡片 -->
+                <div class="stats-grid">
+                    <div class="stat-card blue">
+                        <div class="stat-header">
+                            <div>
+                                <div class="stat-label">总用户数</div>
+                                <div class="stat-value" id="totalUsers">0</div>
+                            </div>
+                            <div class="stat-icon">👥</div>
+                        </div>
+                        <div class="stat-change up">↑ 12% 本月</div>
+                    </div>
+
+                    <div class="stat-card green">
+                        <div class="stat-header">
+                            <div>
+                                <div class="stat-label">总词汇量</div>
+                                <div class="stat-value" id="totalWords">0</div>
+                            </div>
+                            <div class="stat-icon">📚</div>
+                        </div>
+                        <div class="stat-change up">↑ 28% 本月</div>
+                    </div>
+
+                    <div class="stat-card purple">
+                        <div class="stat-header">
+                            <div>
+                                <div class="stat-label">今日登录</div>
+                                <div class="stat-value" id="todayLogins">0</div>
+                            </div>
+                            <div class="stat-icon">🔑</div>
+                        </div>
+                        <div class="stat-change up">↑ 5% 较昨日</div>
+                    </div>
+
+                    <div class="stat-card orange">
+                        <div class="stat-header">
+                            <div>
+                                <div class="stat-label">活跃用户</div>
+                                <div class="stat-value" id="activeUsers">0</div>
+                            </div>
+                            <div class="stat-icon">⚡</div>
+                        </div>
+                        <div class="stat-change up">↑ 8% 本周</div>
+                    </div>
+                </div>
+
+                <!-- 最近登录 -->
+                <div class="data-table-container">
+                    <div class="table-header">
+                        <h3>最近登录记录</h3>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>用户</th>
+                                <th>角色</th>
+                                <th>登录时间</th>
+                                <th>设备信息</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recentLoginsTable">
+                            <tr>
+                                <td colspan="4" style="text-align: center; color: #718096;">加载中...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 用户管理部分 -->
+            <div id="usersSection" style="display: none;">
+                <div class="data-table-container">
+                    <div class="table-header">
+                        <h3>用户列表</h3>
+                        <div class="table-search">
+                            <input type="text" class="search-input" placeholder="搜索用户..." id="userSearch">
+                            <button class="btn btn-primary" onclick="openAddUserModal()">
+                                ➕ 添加用户
+                            </button>
+                        </div>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>用户名</th>
+                                <th>显示名称</th>
+                                <th>角色</th>
+                                <th>邮箱</th>
+                                <th>最后登录</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTable">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 其他部分... -->
+            <div id="vocabularySection" style="display: none;">
+                <div class="data-table-container">
+                    <div class="table-header">
+                        <h3>词汇库管理</h3>
+                        <button class="btn btn-primary" onclick="window.location.href='vocabulary-import-tool.html'">
+                            📤 导入词汇
+                        </button>
+                    </div>
+                    <p style="padding: 40px; text-align: center; color: #718096;">
+                        请使用<a href="vocabulary-import-tool.html" style="color: #A87C5C;">词汇导入工具</a>管理词汇库
+                    </p>
+                </div>
+            </div>
+
+            <div id="statisticsSection" style="display: none;">
+                <div class="stats-grid">
+                    <div class="stat-card blue">
+                        <div class="stat-header">
+                            <div>
+                                <div class="stat-label">总词汇量</div>
+                                <div class="stat-value" id="statTotalWords">0</div>
+                            </div>
+                            <div class="stat-icon">📚</div>
+                        </div>
+                        <div class="stat-change up">↑ 持续增长</div>
+                    </div>
+
+                    <div class="stat-card green">
+                        <div class="stat-header">
+                            <div>
+                                <div class="stat-label">已掌握</div>
+                                <div class="stat-value" id="statMastered">0</div>
+                            </div>
+                            <div class="stat-icon">✅</div>
+                        </div>
+                        <div class="stat-change up">↑ 学习进度</div>
+                    </div>
+
+                    <div class="stat-card purple">
+                        <div class="stat-header">
+                            <div>
+                                <div class="stat-label">学习中</div>
+                                <div class="stat-value" id="statLearning">0</div>
+                            </div>
+                            <div class="stat-icon">📖</div>
+                        </div>
+                        <div class="stat-change">正在学习</div>
+                    </div>
+
+                    <div class="stat-card orange">
+                        <div class="stat-header">
+                            <div>
+                                <div class="stat-label">登录次数</div>
+                                <div class="stat-value" id="statLoginCount">0</div>
+                            </div>
+                            <div class="stat-icon">🔑</div>
+                        </div>
+                        <div class="stat-change up">↑ 活跃度</div>
+                    </div>
+                </div>
+
+                <!-- 用户活跃度 -->
+                <div class="data-table-container" style="margin-bottom: 30px;">
+                    <div class="table-header">
+                        <h3>📊 用户活跃度统计</h3>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>用户名</th>
+                                <th>角色</th>
+                                <th>登录次数</th>
+                                <th>学习词汇</th>
+                                <th>最后活跃</th>
+                            </tr>
+                        </thead>
+                        <tbody id="userActivityTable">
+                            <tr>
+                                <td colspan="5" style="text-align: center; color: #718096;">加载中...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 学习进度分布 -->
+                <div class="data-table-container">
+                    <div class="table-header">
+                        <h3>📈 学习进度分布</h3>
+                    </div>
+                    <div style="padding: 30px;">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                            <div style="text-align: center; padding: 20px; background: #f7fafc; border-radius: 8px;">
+                                <div style="font-size: 36px; margin-bottom: 10px;">😊</div>
+                                <div style="font-size: 24px; font-weight: 700; color: #38a169;" id="masteredPercent">0%</div>
+                                <div style="color: #718096; font-size: 14px;">已掌握</div>
+                            </div>
+                            <div style="text-align: center; padding: 20px; background: #f7fafc; border-radius: 8px;">
+                                <div style="font-size: 36px; margin-bottom: 10px;">📖</div>
+                                <div style="font-size: 24px; font-weight: 700; color: #3182ce;" id="learningPercent">0%</div>
+                                <div style="color: #718096; font-size: 14px;">学习中</div>
+                            </div>
+                            <div style="text-align: center; padding: 20px; background: #f7fafc; border-radius: 8px;">
+                                <div style="font-size: 36px; margin-bottom: 10px;">🆕</div>
+                                <div style="font-size: 24px; font-weight: 700; color: #dd6b20;" id="newPercent">0%</div>
+                                <div style="color: #718096; font-size: 14px;">未学习</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="settingsSection" style="display: none;">
+                <!-- 系统基本设置 -->
+                <div class="data-table-container" style="margin-bottom: 30px;">
+                    <div class="table-header">
+                        <h3>⚙️ 系统基本设置</h3>
+                        <button class="btn btn-primary" onclick="saveSystemSettings()">
+                            💾 保存设置
+                        </button>
+                    </div>
+                    <div style="padding: 30px;">
+                        <div class="form-group">
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600;">系统名称</label>
+                            <input type="text" id="systemName" class="form-control" value="Language Hub" style="max-width: 400px;">
+                        </div>
+                        
+                        <div class="form-group" style="margin-top: 20px;">
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600;">系统描述</label>
+                            <textarea id="systemDesc" class="form-control" rows="3" style="max-width: 600px;">多语言学习平台 - 让语言学习更简单</textarea>
+                        </div>
+
+                        <div class="form-group" style="margin-top: 20px;">
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600;">允许用户注册</label>
+                            <label style="display: inline-flex; align-items: center; gap: 8px; cursor: pointer;">
+                                <input type="checkbox" id="allowRegister" checked style="width: 18px; height: 18px; accent-color: #A87C5C;">
+                                <span>允许新用户自主注册账号</span>
+                            </label>
+                        </div>
+
+                        <div class="form-group" style="margin-top: 20px;">
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600;">默认新用户角色</label>
+                            <select id="defaultRole" class="form-control" style="max-width: 200px;">
+                                <option value="student" selected>学生</option>
+                                <option value="guest">访客</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 安全设置 -->
+                <div class="data-table-container" style="margin-bottom: 30px;">
+                    <div class="table-header">
+                        <h3>🔒 安全设置</h3>
+                    </div>
+                    <div style="padding: 30px;">
+                        <div class="form-group">
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600;">会话超时时间（分钟）</label>
+                            <input type="number" id="sessionTimeout" class="form-control" value="120" min="10" max="1440" style="max-width: 200px;">
+                            <small style="color: #718096; margin-top: 5px; display: block;">用户无操作自动退出登录的时间</small>
+                        </div>
+
+                        <div class="form-group" style="margin-top: 20px;">
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600;">密码最小长度</label>
+                            <input type="number" id="minPasswordLength" class="form-control" value="6" min="4" max="20" style="max-width: 200px;">
+                        </div>
+
+                        <div class="form-group" style="margin-top: 20px;">
+                            <label style="display: inline-flex; align-items: center; gap: 8px; cursor: pointer;">
+                                <input type="checkbox" id="requireStrongPassword" style="width: 18px; height: 18px; accent-color: #A87C5C;">
+                                <span>要求强密码（包含大小写字母和数字）</span>
+                            </label>
+                        </div>
+
+                        <div class="form-group" style="margin-top: 20px;">
+                            <label style="display: inline-flex; align-items: center; gap: 8px; cursor: pointer;">
+                                <input type="checkbox" id="enableLoginHistory" checked style="width: 18px; height: 18px; accent-color: #A87C5C;">
+                                <span>记录登录历史</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 界面设置 -->
+                <div class="data-table-container" style="margin-bottom: 30px;">
+                    <div class="table-header">
+                        <h3>🎨 界面设置</h3>
+                    </div>
+                    <div style="padding: 30px;">
+                        <div class="form-group">
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600;">默认主题</label>
+                            <select id="defaultTheme" class="form-control" style="max-width: 200px;">
+                                <option value="light" selected>浅色模式</option>
+                                <option value="dark">深色模式</option>
+                                <option value="auto">跟随系统</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group" style="margin-top: 20px;">
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600;">语言设置</label>
+                            <select id="systemLanguage" class="form-control" style="max-width: 200px;">
+                                <option value="zh-CN" selected>简体中文</option>
+                                <option value="zh-TW">繁体中文</option>
+                                <option value="en-US">English</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group" style="margin-top: 20px;">
+                            <label style="display: inline-flex; align-items: center; gap: 8px; cursor: pointer;">
+                                <input type="checkbox" id="showWelcomeMessage" checked style="width: 18px; height: 18px; accent-color: #A87C5C;">
+                                <span>显示欢迎消息</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 数据管理 -->
+                <div class="data-table-container">
+                    <div class="table-header">
+                        <h3>💾 数据管理</h3>
+                    </div>
+                    <div style="padding: 30px;">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                            <div style="padding: 20px; background: #f7fafc; border-radius: 12px; border: 2px dashed #e2e8f0;">
+                                <h4 style="margin: 0 0 10px 0; font-size: 16px;">📤 导出数据</h4>
+                                <p style="margin: 0 0 15px 0; font-size: 13px; color: #718096;">导出所有用户和词汇数据</p>
+                                <button class="btn btn-primary" onclick="exportAllData()">
+                                    导出数据
+                                </button>
+                            </div>
+
+                            <div style="padding: 20px; background: #f7fafc; border-radius: 12px; border: 2px dashed #e2e8f0;">
+                                <h4 style="margin: 0 0 10px 0; font-size: 16px;">📥 导入数据</h4>
+                                <p style="margin: 0 0 15px 0; font-size: 13px; color: #718096;">从备份文件恢复数据</p>
+                                <input type="file" id="importFile" accept=".json" style="display: none;" onchange="importAllData(event)">
+                                <button class="btn btn-secondary" onclick="document.getElementById('importFile').click()">
+                                    选择文件
+                                </button>
+                            </div>
+
+                            <div style="padding: 20px; background: #fff3cd; border-radius: 12px; border: 2px dashed #ffc107;">
+                                <h4 style="margin: 0 0 10px 0; font-size: 16px;">🗑️ 清空数据</h4>
+                                <p style="margin: 0 0 15px 0; font-size: 13px; color: #856404;">清空所有用户数据（谨慎操作）</p>
+                                <button class="btn btn-danger" onclick="clearAllData()">
+                                    清空数据
+                                </button>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 20px; padding: 15px; background: #e3f2fd; border-radius: 8px; border-left: 4px solid #2196f3;">
+                            <strong>💡 提示：</strong> 定期备份数据可以防止数据丢失。建议每周导出一次备份。
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 添加用户模态框 -->
+    <div class="modal" id="addUserModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>添加新用户</h3>
+                <button class="close-btn" onclick="closeModal('addUserModal')">×</button>
+            </div>
+            <form id="addUserForm" onsubmit="handleAddUser(event)">
+                <div class="form-group">
+                    <label>用户名</label>
+                    <input type="text" class="form-control" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label>密码</label>
+                    <input type="password" class="form-control" name="password" required>
+                </div>
+                <div class="form-group">
+                    <label>显示名称</label>
+                    <input type="text" class="form-control" name="displayName" required>
+                </div>
+                <div class="form-group">
+                    <label>邮箱</label>
+                    <input type="email" class="form-control" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label>角色</label>
+                    <select class="form-control" name="role" required>
+                        <option value="student">学生</option>
+                        <option value="teacher">教师</option>
+                        <option value="admin">管理员</option>
+                        <option value="guest">访客</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    ✅ 创建用户
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script src="auth-system.js"></script>
+    <script>
+        // 检查管理员权限
+        if (!requireRole('admin')) {
+            // 会自动跳转
+        }
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUserInfo();
+            loadDashboardData();
+            loadUsersTable();
+        });
+
+        // 加载用户信息
+        function loadUserInfo() {
+            const user = getCurrentUser();
+            if (user) {
+                document.getElementById('sidebarUserInfo').innerHTML = `
+                    <div class="user-avatar">${user.avatar}</div>
+                    <div class="user-details">
+                        <h4>${user.displayName}</h4>
+                        <p>${AuthSystem.getRoleInfo(user.role).label}</p>
+                    </div>
+                `;
+            }
+        }
+
+        // 加载仪表板数据
+        function loadDashboardData() {
+            const stats = AuthSystem.getStatistics();
+            if (stats.success) {
+                document.getElementById('totalUsers').textContent = stats.data.totalUsers;
+                document.getElementById('activeUsers').textContent = stats.data.activeUsers;
+                document.getElementById('todayLogins').textContent = stats.data.todayLogins;
+                
+                // 加载词汇总数（从localStorage）
+                const vocabulary = JSON.parse(localStorage.getItem('vocabulary') || '[]');
+                document.getElementById('totalWords').textContent = vocabulary.length;
+
+                // 加载最近登录
+                loadRecentLogins(stats.data.recentLogins);
+            }
+        }
+
+        // 加载最近登录记录
+        function loadRecentLogins(logins) {
+            const tbody = document.getElementById('recentLoginsTable');
+            if (!logins || logins.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align: center;">暂无登录记录</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = logins.slice(0, 5).map(login => {
+                const roleInfo = AuthSystem.getRoleInfo(login.role);
+                return `
+                    <tr>
+                        <td><strong>${login.displayName}</strong><br><small style="color: #718096;">${login.username}</small></td>
+                        <td><span class="badge badge-${login.role}">${roleInfo.label}</span></td>
+                        <td>${new Date(login.loginTime).toLocaleString()}</td>
+                        <td style="font-size: 12px; color: #718096;">${getDeviceInfo(login.userAgent)}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // 获取设备信息
+        function getDeviceInfo(userAgent) {
+            if (userAgent.includes('Chrome')) return '🌐 Chrome';
+            if (userAgent.includes('Firefox')) return '🦊 Firefox';
+            if (userAgent.includes('Safari')) return '🧭 Safari';
+            if (userAgent.includes('Edge')) return '🔷 Edge';
+            return '💻 未知浏览器';
+        }
+
+        // 加载用户表格
+        function loadUsersTable() {
+            const result = AuthSystem.getAllUsers();
+            if (!result.success) {
+                alert(result.message);
+                return;
+            }
+
+            const tbody = document.getElementById('usersTable');
+            tbody.innerHTML = result.users.map(user => {
+                const roleInfo = AuthSystem.getRoleInfo(user.role);
+                return `
+                    <tr>
+                        <td><strong>${user.username}</strong></td>
+                        <td>${user.avatar} ${user.displayName}</td>
+                        <td><span class="badge badge-${user.role}">${roleInfo.label}</span></td>
+                        <td>${user.email}</td>
+                        <td>${user.lastLogin ? new Date(user.lastLogin).toLocaleString() : '从未登录'}</td>
+                        <td class="table-actions">
+                            <button class="icon-btn" onclick="editUser('${user.username}')" title="编辑">✏️</button>
+                            <button class="icon-btn" onclick="deleteUser('${user.username}')" title="删除">🗑️</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // 显示不同部分
+        function showSection(section) {
+            // 隐藏所有部分
+            document.querySelectorAll('[id$="Section"]').forEach(el => el.style.display = 'none');
+            
+            // 显示选中部分
+            document.getElementById(section + 'Section').style.display = 'block';
+
+            // 更新菜单激活状态
+            document.querySelectorAll('.menu-item').forEach(item => item.classList.remove('active'));
+            event.target.closest('.menu-item').classList.add('active');
+
+            // 更新标题
+            const titles = {
+                'dashboard': ['仪表板', '系统概览和关键指标'],
+                'users': ['用户管理', '管理系统所有用户'],
+                'vocabulary': ['词汇管理', '管理词汇库和导入数据'],
+                'statistics': ['数据统计', '查看详细的使用统计'],
+                'settings': ['系统设置', '配置系统参数']
+            };
+            
+            if (titles[section]) {
+                document.getElementById('pageTitle').textContent = titles[section][0];
+                document.getElementById('pageSubtitle').textContent = titles[section][1];
+            }
+
+            // 如果是数据统计页面，加载统计数据
+            if (section === 'statistics') {
+                loadStatisticsData();
+            }
+        }
+
+        // 加载统计数据
+        function loadStatisticsData() {
+            // 获取词汇数据
+            const vocabulary = JSON.parse(localStorage.getItem('vocabulary') || '[]');
+            const learningProgress = JSON.parse(localStorage.getItem('learningProgress') || '{}');
+            
+            // 计算统计
+            const totalWords = vocabulary.length;
+            let mastered = 0;
+            let learning = 0;
+            
+            Object.values(learningProgress).forEach(progress => {
+                if (progress.masteryLevel === 'mastered') mastered++;
+                else if (progress.masteryLevel === 'learning') learning++;
+            });
+            
+            const newWords = totalWords - mastered - learning;
+            
+            // 更新统计卡片
+            document.getElementById('statTotalWords').textContent = totalWords;
+            document.getElementById('statMastered').textContent = mastered;
+            document.getElementById('statLearning').textContent = learning;
+            
+            // 计算登录总次数
+            const users = AuthSystem.getAllUsers();
+            let totalLogins = 0;
+            users.data.forEach(user => {
+                totalLogins += user.loginCount || 0;
+            });
+            document.getElementById('statLoginCount').textContent = totalLogins;
+            
+            // 计算百分比
+            if (totalWords > 0) {
+                document.getElementById('masteredPercent').textContent = Math.round(mastered / totalWords * 100) + '%';
+                document.getElementById('learningPercent').textContent = Math.round(learning / totalWords * 100) + '%';
+                document.getElementById('newPercent').textContent = Math.round(newWords / totalWords * 100) + '%';
+            }
+            
+            // 加载用户活跃度表格
+            loadUserActivityTable(users.data);
+        }
+
+        // 加载用户活跃度表格
+        function loadUserActivityTable(users) {
+            const tbody = document.getElementById('userActivityTable');
+            if (!users || users.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">暂无用户数据</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = users.map(user => {
+                const roleInfo = AuthSystem.getRoleInfo(user.role);
+                const lastActive = user.lastLogin ? new Date(user.lastLogin).toLocaleString() : '从未登录';
+                const learnedWords = Object.keys(JSON.parse(localStorage.getItem('learningProgress') || '{}')).length;
+                
+                return `
+                    <tr>
+                        <td><strong>${user.displayName}</strong><br><small style="color: #718096;">${user.username}</small></td>
+                        <td><span class="badge badge-${user.role}">${roleInfo.label}</span></td>
+                        <td>${user.loginCount || 0}</td>
+                        <td>${learnedWords}</td>
+                        <td style="font-size: 13px;">${lastActive}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // 打开添加用户模态框
+        function openAddUserModal() {
+            document.getElementById('addUserModal').classList.add('active');
+        }
+
+        // 关闭模态框
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        // 处理添加用户
+        function handleAddUser(e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const userData = {
+                username: formData.get('username'),
+                password: formData.get('password'),
+                displayName: formData.get('displayName'),
+                email: formData.get('email'),
+                role: formData.get('role'),
+                avatar: getRoleAvatar(formData.get('role')),
+                permissions: AuthSystem.getRoleInfo(formData.get('role')).permissions
+            };
+
+            const result = AuthSystem.addUser(userData);
+            if (result.success) {
+                alert('✅ ' + result.message);
+                closeModal('addUserModal');
+                e.target.reset();
+                loadUsersTable();
+                loadDashboardData();
+            } else {
+                alert('❌ ' + result.message);
+            }
+        }
+
+        // 获取角色头像
+        function getRoleAvatar(role) {
+            const avatars = {
+                'admin': '👑',
+                'teacher': '👨‍🏫',
+                'student': '👨‍🎓',
+                'guest': '👤'
+            };
+            return avatars[role] || '👤';
+        }
+
+        // 删除用户
+        function deleteUser(username) {
+            if (username === 'admin') {
+                alert('❌ 不能删除默认管理员账号');
+                return;
+            }
+
+            if (confirm(`确定要删除用户 "${username}" 吗？`)) {
+                const result = AuthSystem.deleteUser(username);
+                if (result.success) {
+                    alert('✅ ' + result.message);
+                    loadUsersTable();
+                    loadDashboardData();
+                } else {
+                    alert('❌ ' + result.message);
+                }
+            }
+        }
+
+        // 编辑用户
+        function editUser(username) {
+            alert('编辑用户功能开发中...');
+        }
+
+        // 刷新数据
+        function refreshData() {
+            loadDashboardData();
+            loadUsersTable();
+            alert('✅ 数据已刷新');
+        }
+
+        // 导出数据
+        function exportData() {
+            alert('📤 导出功能开发中...');
+        }
+
+        // 保存系统设置
+        function saveSystemSettings() {
+            const settings = {
+                systemName: document.getElementById('systemName').value,
+                systemDesc: document.getElementById('systemDesc').value,
+                allowRegister: document.getElementById('allowRegister').checked,
+                defaultRole: document.getElementById('defaultRole').value,
+                sessionTimeout: parseInt(document.getElementById('sessionTimeout').value),
+                minPasswordLength: parseInt(document.getElementById('minPasswordLength').value),
+                requireStrongPassword: document.getElementById('requireStrongPassword').checked,
+                enableLoginHistory: document.getElementById('enableLoginHistory').checked,
+                defaultTheme: document.getElementById('defaultTheme').value,
+                systemLanguage: document.getElementById('systemLanguage').value,
+                showWelcomeMessage: document.getElementById('showWelcomeMessage').checked,
+                updatedAt: new Date().toISOString()
+            };
+
+            localStorage.setItem('systemSettings', JSON.stringify(settings));
+            alert('✅ 系统设置已保存');
+        }
+
+        // 加载系统设置
+        function loadSystemSettings() {
+            const settingsStr = localStorage.getItem('systemSettings');
+            if (settingsStr) {
+                const settings = JSON.parse(settingsStr);
+                document.getElementById('systemName').value = settings.systemName || 'Language Hub';
+                document.getElementById('systemDesc').value = settings.systemDesc || '多语言学习平台';
+                document.getElementById('allowRegister').checked = settings.allowRegister !== false;
+                document.getElementById('defaultRole').value = settings.defaultRole || 'student';
+                document.getElementById('sessionTimeout').value = settings.sessionTimeout || 120;
+                document.getElementById('minPasswordLength').value = settings.minPasswordLength || 6;
+                document.getElementById('requireStrongPassword').checked = settings.requireStrongPassword || false;
+                document.getElementById('enableLoginHistory').checked = settings.enableLoginHistory !== false;
+                document.getElementById('defaultTheme').value = settings.defaultTheme || 'light';
+                document.getElementById('systemLanguage').value = settings.systemLanguage || 'zh-CN';
+                document.getElementById('showWelcomeMessage').checked = settings.showWelcomeMessage !== false;
+            }
+        }
+
+        // 导出所有数据
+        function exportAllData() {
+            const exportData = {
+                users: localStorage.getItem('systemUsers') || '{}',
+                vocabulary: localStorage.getItem('vocabulary') || '[]',
+                learningProgress: localStorage.getItem('learningProgress') || '{}',
+                settings: localStorage.getItem('systemSettings') || '{}',
+                loginHistory: localStorage.getItem('loginHistory') || '[]',
+                exportDate: new Date().toISOString(),
+                version: '1.0'
+            };
+
+            const dataStr = JSON.stringify(exportData, null, 2);
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `language-hub-backup-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            alert('✅ 数据导出成功！');
+        }
+
+        // 导入所有数据
+        function importAllData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            if (!confirm('⚠️ 导入数据将覆盖现有数据，确定要继续吗？')) {
+                event.target.value = '';
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const importData = JSON.parse(e.target.result);
+                    
+                    // 验证数据格式
+                    if (!importData.version) {
+                        throw new Error('无效的备份文件格式');
+                    }
+
+                    // 恢复数据
+                    if (importData.users) localStorage.setItem('systemUsers', importData.users);
+                    if (importData.vocabulary) localStorage.setItem('vocabulary', importData.vocabulary);
+                    if (importData.learningProgress) localStorage.setItem('learningProgress', importData.learningProgress);
+                    if (importData.settings) localStorage.setItem('systemSettings', importData.settings);
+                    if (importData.loginHistory) localStorage.setItem('loginHistory', importData.loginHistory);
+
+                    alert('✅ 数据导入成功！页面将刷新以应用新数据。');
+                    setTimeout(() => location.reload(), 1500);
+                } catch (error) {
+                    alert('❌ 导入失败：' + error.message);
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = '';
+        }
+
+        // 清空所有数据
+        function clearAllData() {
+            if (!confirm('⚠️ 确定要清空所有数据吗？此操作不可恢复！')) {
+                return;
+            }
+
+            if (!confirm('⚠️⚠️ 最后确认：这将删除所有用户、词汇和学习数据，确定继续吗？')) {
+                return;
+            }
+
+            // 清空所有数据（保留系统设置）
+            localStorage.removeItem('systemUsers');
+            localStorage.removeItem('vocabulary');
+            localStorage.removeItem('learningProgress');
+            localStorage.removeItem('loginHistory');
+            
+            alert('✅ 数据已清空！页面将刷新。');
+            setTimeout(() => location.reload(), 1500);
+        }
+
+        // 用户搜索
+        document.getElementById('userSearch')?.addEventListener('input', function(e) {
+            const search = e.target.value.toLowerCase();
+            const rows = document.querySelectorAll('#usersTable tr');
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(search) ? '' : 'none';
+            });
+        });
+
+        // 页面加载完成后加载系统设置
+        setTimeout(() => {
+            loadSystemSettings();
+        }, 500);
+    </script>
+</body>
+</html>
