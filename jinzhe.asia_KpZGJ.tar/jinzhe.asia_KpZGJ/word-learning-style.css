@@ -1,0 +1,324 @@
+/* � 单词学习页面 - 美拉德配色补充样式 */
+
+/* 按钮样式统一 */
+.nav-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    background: rgba(255, 255, 255, 0.7);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    color: #3d2e1f;
+    border: 1px solid rgba(139, 111, 71, 0.15);
+}
+
+.nav-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.nav-btn:active {
+    transform: translateY(0);
+}
+
+.nav-btn[data-mode].active {
+    background: #8B6F47;
+    color: white;
+    border: none;
+    box-shadow: 0 2px 8px rgba(139, 111, 71, 0.3);
+}
+
+/* 单词卡片 */
+.word-card {
+    background: rgba(255, 255, 255, 0.7);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 16px;
+    padding: 24px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.word-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+}
+
+/* 模式容器 */
+.mode-container {
+    background: rgba(255, 255, 255, 0.5);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 20px;
+    padding: 32px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+
+/* 输入框样式 */
+input[type="text"],
+input[type="search"],
+textarea,
+select {
+    padding: 12px 16px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.7);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    font-size: 15px;
+    color: #2c2c2e;
+    transition: all 0.2s ease;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+}
+
+input[type="text"]:focus,
+input[type="search"]:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: #9ca99b;
+    box-shadow: 0 0 0 4px rgba(156, 169, 155, 0.1);
+    background: rgba(255, 255, 255, 0.9);
+}
+
+/* 词汇图谱优化 */
+.word-graph {
+    background: rgba(255, 255, 255, 0.6);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 20px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+
+.graph-center {
+    background: #2c2c2e;
+    color: #f5f5f5;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+.graph-node {
+    background: rgba(255, 255, 255, 0.9);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+}
+
+.graph-node:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    border-color: #999;
+}
+
+/* 游戏区域 */
+.game-area {
+    background: rgba(255, 255, 255, 0.4);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 16px;
+}
+
+/* 标题样式 */
+h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #3d2e1f;
+    letter-spacing: -0.5px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #3d2e1f;
+    letter-spacing: -0.3px;
+}
+
+/* 统计信息 */
+.stats-item {
+    background: rgba(255, 255, 255, 0.6);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+}
+
+/* 进度条 */
+.progress-bar {
+    background: rgba(139, 111, 71, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    height: 8px;
+}
+
+.progress-fill {
+    background: linear-gradient(90deg, #8B6F47, #A87C5C);
+    height: 100%;
+    transition: width 0.3s ease;
+    border-radius: 8px;
+}
+
+/* 状态徽章 */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    background: rgba(139, 111, 71, 0.15);
+    color: #8B6F47;
+    border: 1px solid rgba(139, 111, 71, 0.2);
+}
+
+.status-badge.mastered {
+    background: rgba(139, 111, 71, 0.2);
+    color: #6B5344;
+}
+
+.status-badge.difficult {
+    background: rgba(212, 165, 116, 0.2);
+    color: #A87C5C;
+}
+
+/* 通知样式 */
+.notification {
+    position: fixed;
+    top: 80px;
+    right: 24px;
+    max-width: 360px;
+    padding: 16px 20px;
+    background: rgba(255, 255, 255, 0.9);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    z-index: 9999;
+    animation: slideInRight 0.3s ease;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.notification.success {
+    border-left: 3px solid #8B6F47;
+}
+
+.notification.error {
+    border-left: 3px solid #D4A574;
+}
+
+.notification.info {
+    border-left: 3px solid #A87C5C;
+}
+
+/* 按钮组 */
+.button-group {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.button-group .nav-btn {
+    flex: 1;
+    min-width: 120px;
+}
+
+/* 卡片网格 */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    padding: 20px 0;
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+    .container {
+        padding: 16px;
+    }
+    
+    .header {
+        padding: 20px;
+    }
+    
+    .header h1 {
+        font-size: 22px;
+    }
+    
+    .mode-container {
+        padding: 24px 16px;
+    }
+    
+    h2 {
+        font-size: 20px;
+    }
+    
+    .card-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+}
+
+/* 选择器样式优化 */
+#dictation-lang-select,
+#dictation-voice-select {
+    padding: 10px 16px;
+    border: 1px solid rgba(139, 111, 71, 0.15);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
+    min-width: 150px;
+}
+
+label {
+    font-weight: 600;
+    color: #3d2e1f;
+    margin-right: 8px;
+    font-size: 15px;
+}
+
+/* 玻璃效果的canvas */
+canvas {
+    border-radius: 12px;
+    border: 1px solid rgba(139, 111, 71, 0.15);
+    background: rgba(255, 255, 255, 0.5);
+}
+
+/* 代码块样式 */
+code {
+    background: rgba(139, 111, 71, 0.08);
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+    font-size: 13px;
+    color: #3d2e1f;
+}
+
+/* 分隔线 */
+hr {
+    border: none;
+    height: 1px;
+    background: rgba(139, 111, 71, 0.15);
+    margin: 24px 0;
+}
